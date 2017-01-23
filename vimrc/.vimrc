@@ -16,7 +16,6 @@ Plug 'moll/vim-node', { 'for': ['javascript', 'coffee'] }
 Plug 'pangloss/vim-javascript', { 'for': ['javascript'] }
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
-Plug 'kien/ctrlp.vim'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer --racer-completer' }
 Plug 'ElmCast/elm-vim'
 Plug 'scrooloose/syntastic'
@@ -31,6 +30,9 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-repeat'
 Plug 'wavded/vim-stylus'
 Plug 'ap/vim-css-color'
+Plug 'rizzatti/dash.vim'
+Plug 'rust-lang/rust.vim'
+Plug 'tpope/vim-abolish'
 
 call plug#end()            " required
 filetype plugin indent on    " required
@@ -45,7 +47,7 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this lin
 
 syntax on
-colorscheme sourcerer
+colorscheme distinguished
 set omnifunc=syntaxcomplete
 set number
 set tabstop=2
@@ -60,6 +62,7 @@ set si
 set wrap
 set splitright
 set splitbelow
+
 
 " cursor tmux stuff
 let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
@@ -81,16 +84,27 @@ map <c-space> ?
 set cmdheight=1
 au BufRead,BufNewFile *.es6 setfiletype js
 
-let g:ctrlp_working_path_mode = 'cra'
-
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
+" elm
+let g:elm_syntastic_show_warnings = 1
+let g:elm_setup_keybindings = 1
+" let g:elm_format_autosave = 1
+
+" java/coffee-script
 let g:syntastic_javascript_checkers=['eslint']
 let g:syntastic_coffee_checkers=['coffeelint', 'coffee']
 let g:used_javascript_libs='ramda,react'
+
+" rust
+let g:rust_recommended_style = 0
+
+let g:ycm_semantic_triggers = {
+  \ 'elm' : ['.'],
+  \ }
 
 " Smart way to move between windows
 map <C-j> <C-W>j
@@ -109,15 +123,8 @@ let g:gitgutter_sign_column_always=1
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 if executable('ag')
-  " Use Ag over Grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast
-  " and respects .gitignore
-  let g:ctrlp_user_command = 'ag -Q -l --nocolor --hidden -g "" %s'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
+  " use AG in Ack
+  let g:ackprg = 'ag --vimgrep'
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
