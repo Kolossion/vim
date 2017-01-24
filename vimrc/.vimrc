@@ -92,6 +92,8 @@ let g:syntastic_check_on_wq = 0
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
+let g:easy_align_ignore_groups = ['Comment', 'String']
+
 " elm
 let g:elm_syntastic_show_warnings = 1
 let g:elm_setup_keybindings = 1
