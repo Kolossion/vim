@@ -7,9 +7,9 @@ set laststatus=2
 call plug#begin('~/.vim/plugged')
 
 Plug 'kchmck/vim-coffee-script'
+Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
-Plug 'scrooloose/syntastic'
 Plug 'jiangmiao/auto-pairs'
 Plug 'flazz/vim-colorschemes'
 Plug 'moll/vim-node', { 'for': ['javascript', 'coffee'] }
@@ -23,16 +23,15 @@ Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
-Plug 'godlygeek/tabular'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'wesQ3/vim-windowswap'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-repeat'
 Plug 'wavded/vim-stylus'
 Plug 'ap/vim-css-color'
-Plug 'rizzatti/dash.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-abolish'
+Plug 'haya14busa/incsearch.vim'
 
 call plug#end()            " required
 filetype plugin indent on    " required
@@ -88,6 +87,10 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+" Easy Align
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 
 " elm
 let g:elm_syntastic_show_warnings = 1
