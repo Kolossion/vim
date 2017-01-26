@@ -1,6 +1,8 @@
 set termguicolors
 set nocompatible              " be iMproved, required
 set backspace=indent,eol,start
+set guioptions-=r
+set guioptions-=L
 filetype off                  " required
 set laststatus=2
 
