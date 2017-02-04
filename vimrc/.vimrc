@@ -1,10 +1,13 @@
 set termguicolors
 set nocompatible              " be iMproved, required
 set backspace=indent,eol,start
+set guifont=Meslo\ LG\ S\ DZ\ for\ Powerline:h12
 set guioptions-=r
 set guioptions-=L
 filetype off                  " required
 set laststatus=2
+  
+colorscheme Tomorrow-Night
 
 call plug#begin('~/.vim/plugged')
 
@@ -34,6 +37,7 @@ Plug 'ap/vim-css-color'
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-abolish'
 Plug 'haya14busa/incsearch.vim'
+Plug 'daylerees/colour-schemes', { 'rtp': 'vim' }
 
 call plug#end()            " required
 filetype plugin indent on    " required
@@ -48,7 +52,6 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this lin
 
 syntax on
-colorscheme distinguished
 set omnifunc=syntaxcomplete
 set number
 set tabstop=2
