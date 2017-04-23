@@ -1,8 +1,7 @@
 set termguicolors
-set t_Co=256
 set nocompatible              " be iMproved, required
 set backspace=indent,eol,start
-set guifont=Meslo\ LG\ S\ DZ\ for\ Powerline:h10
+set guifont=Meslo\ LG\ S\ DZ\ for\ Powerline:h12
 set guioptions-=r
 set guioptions-=L
 filetype off                  " required
@@ -11,34 +10,34 @@ set hidden
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'ElmCast/elm-vim'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'airblade/vim-gitgutter'
-Plug 'ap/vim-css-color'
-Plug 'daylerees/colour-schemes', { 'rtp': 'vim' }
-Plug 'flazz/vim-colorschemes'
-Plug 'haya14busa/incsearch.vim'
-Plug 'jiangmiao/auto-pairs'
-Plug 'junegunn/vim-easy-align'
 Plug 'kchmck/vim-coffee-script'
-Plug 'mileszs/ack.vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
+Plug 'jiangmiao/auto-pairs'
+Plug 'flazz/vim-colorschemes'
 Plug 'moll/vim-node', { 'for': ['javascript', 'coffee'] }
 Plug 'pangloss/vim-javascript', { 'for': ['javascript'] }
-Plug 'racer-rust/vim-racer'
-Plug 'rust-lang/rust.vim'
-Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
+Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer --racer-completer' }
+Plug 'ElmCast/elm-vim'
+Plug 'scrooloose/syntastic'
+Plug 'mileszs/ack.vim'
+Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'wavded/vim-stylus'
 Plug 'wesQ3/vim-windowswap'
-Plug 'morhetz/gruvbox'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tpope/vim-repeat'
+Plug 'wavded/vim-stylus'
+Plug 'ap/vim-css-color'
+Plug 'rust-lang/rust.vim'
+Plug 'tpope/vim-abolish'
+Plug 'haya14busa/incsearch.vim'
+Plug 'daylerees/colour-schemes', { 'rtp': 'vim' }
+Plug 'racer-rust/vim-racer'
 
 call plug#end()            " required
 filetype plugin indent on    " required
@@ -53,14 +52,13 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this lin
 
 syntax on
-colorscheme sourcerer
+colorscheme Tomorrow-Night
 set omnifunc=syntaxcomplete
 set number
 set tabstop=2
 set smarttab
 set shiftwidth=2
 set expandtab
-set incsearch
 set cc=80
 set cursorline
 set autoread
@@ -87,38 +85,20 @@ nmap <leader>w :w!<cr>
 map <space> /
 map <c-space> ?
 
-" Inc Search
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-set hlsearch
-let g:incsearch#auto_nohlsearch = 1
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)
-
-if exists(':terminal')
-  nnoremap <leader>t :sp +terminal<cr>
-endif
-
 " Height of the command bar
 set cmdheight=1
 au BufRead,BufNewFile *.es6 setfiletype js
-
-" Easy Align
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
-let g:easy_align_ignore_groups = ['Comment', 'String']
-
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
+" Easy Align
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
+let g:easy_align_ignore_groups = ['Comment', 'String']
 
 " elm
 let g:elm_syntastic_show_warnings = 1
@@ -132,6 +112,11 @@ let g:used_javascript_libs='ramda,react'
 
 " rust
 let g:rust_recommended_style = 0
+
+let g:ycm_semantic_triggers = {
+  \ 'elm' : ['.'],
+  \ }
+let g:ycm_rust_src_path = '~/.multirust/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src'
 
 " Smart way to move between windows
 map <C-j> <C-W>j
