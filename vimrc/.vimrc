@@ -2,30 +2,36 @@ set termguicolors
 set t_Co=256
 set nocompatible              " be iMproved, required
 set backspace=indent,eol,start
-set guifont=Meslo\ LG\ S\ DZ\ for\ Powerline:h10
 set guioptions-=r
 set guioptions-=L
-filetype off                  " required
 set laststatus=2
+set signcolumn=yes
 set hidden
+set autoread
+filetype off                  " required
 
 call plug#begin('~/.vim/plugged')
 
 Plug 'ElmCast/elm-vim'
+Plug 'jparise/vim-graphql'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
 Plug 'ap/vim-css-color'
 Plug 'daylerees/colour-schemes', { 'rtp': 'vim' }
-Plug 'flazz/vim-colorschemes'
+Plug 'easymotion/vim-easymotion'
+Plug 'flazz/vim-colorschemes', {'set': 'all'}
 Plug 'haya14busa/incsearch.vim'
+Plug 'iCyMind/NeoSolarized'
 Plug 'jiangmiao/auto-pairs'
+Plug 'jremmen/vim-ripgrep'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'kchmck/vim-coffee-script'
 Plug 'mileszs/ack.vim'
 Plug 'moll/vim-node', { 'for': ['javascript', 'coffee'] }
+Plug 'morhetz/gruvbox'
 Plug 'pangloss/vim-javascript', { 'for': ['javascript'] }
-Plug 'racer-rust/vim-racer'
-Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic'
@@ -38,22 +44,22 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'wavded/vim-stylus'
 Plug 'wesQ3/vim-windowswap'
-Plug 'morhetz/gruvbox'
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 
 call plug#end()            " required
+
 filetype plugin indent on    " required
 
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this lin
-
 syntax on
-colorscheme sourcerer
+set background=dark
+let g:neosolarized_contrast="high"
+colorscheme gruvbox
 set omnifunc=syntaxcomplete
 set number
 set tabstop=2
@@ -63,29 +69,55 @@ set expandtab
 set incsearch
 set cc=80
 set cursorline
-set autoread
 set ai
 set si
 set wrap
 set splitright
 set splitbelow
 
-
-" cursor tmux stuff
-let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-
-" inoremap <special> <Esc> <Esc>hl
-" set guicursor+=i:blinkwait0
-
 " Set leader
 let mapleader = ","
 let g:mapleader = ","
 
+set rtp+=/.fzf
+nmap <leader><tab> <plug>(fzf-maps-n)
+noremap <C-p> :Files<cr>
+"--column: Show column number
+"--line-number: show line number
+"--no-heading: Do not show file headings in results
+"--fixed-strings: Search term as a literal string
+"--ignore-case: Case insensitive search
+"--no-ignore: Do not respect .gitignore, etc...
+"--follow: follow symlinks
+"--glob Additional conditions for search (in this case ignore
+"    everything in the `.git/` folder.
+" --color: Search color options
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+                                                                                   
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',                                                         
+  \ 'ctrl-x': 'split',                                                             
+  \ 'ctrl-v': 'vsplit' }
+
+let g:deoplete#enable_at_startup=1
+
+" " Copy to clipboard
+vnoremap  <leader>y  "+y
+nnoremap  <leader>Y  "+yg_
+nnoremap  <leader>y  "+y
+nnoremap  <leader>yy  "+yy
+
+" " Paste from clipboard
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
+
 " set cool keycombos
 nmap <leader>w :w!<cr>
-map <space> /
-map <c-space> ?
+
+nmap <space> <Plug>(easymotion-s)
+vmap <space> <Plug>(easymotion-s)
 
 " Inc Search
 map /  <Plug>(incsearch-forward)
@@ -123,7 +155,7 @@ let g:syntastic_check_on_wq = 0
 " elm
 let g:elm_syntastic_show_warnings = 1
 let g:elm_setup_keybindings = 1
-" let g:elm_format_autosave = 1
+let g:elm_format_autosave = 1
 
 " java/coffee-script
 let g:syntastic_javascript_checkers=['eslint']
@@ -146,7 +178,6 @@ nmap ,a: :Tabularize /:<CR>
 vmap ,a: :Tabularize /:<CR>
 nmap ,aa :Tabularize /\CAS<CR>
 
-let g:gitgutter_sign_column_always=1
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 if executable('ag')
@@ -164,15 +195,10 @@ map <leader>nn :NERDTreeToggle<cr>
 
 " airline stuff
 let g:airline_powerline_fonts = 1
+let g:airline_theme='gruvbox'
+let g:airline#extensions#tabline#enabled = 1
+
 
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
 
-" Rust Racer
-let g:racer_cmd = "/Users/thomascole/.cargo/bin/racer"
-let g:racer_experimental_completer = 1
-
-au FileType rust nmap gd <Plug>(rust-def)
-au FileType rust nmap gs <Plug>(rust-def-split)
-au FileType rust nmap gx <Plug>(rust-def-vertical)
-au FileType rust nmap <leader>gd <Plug>(rust-doc)
